@@ -21,3 +21,9 @@ h4{
 .div1{
     width: 90%;
 }
+canvas{
+    border: 2px;
+    border-radius: 20px;
+    border-style: solid;
+    border-color: green;
+}
