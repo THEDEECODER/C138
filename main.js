@@ -1,6 +1,7 @@
 wristX = 0;
 wristY = 0;
 wristscore = 0;
+game_status = "";
 /*created by prashant shukla */
 
 var paddle2 =10,paddle1=10;
@@ -59,6 +60,15 @@ function draw(){
  stroke("black");
  rect(0,0,20,700);
  
+function startGame() {
+game_status = "start";
+document.getElementById(status).innerHTML = "Game is Loaded";
+
+if(game_status == "start"){
+  
+}
+}
+
 if(wristscore > 0.2){
   fill("red");
   stroke("red");
