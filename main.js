@@ -24,6 +24,11 @@ var ball = {
     dy:3
 }
 
+function preload(){
+  miss = loadSound("missed.wav");
+  touch = loadSound("ball_touch_paddel.wav");
+}
+
 function setup(){
   var canvas =  createCanvas(700,600);
   canvas.parent('canvas');
@@ -42,10 +47,15 @@ function gotPoses(results){
   if(results.length > 0){
     console.log(results);
     wristX = results[0].pose.rightWrist.x;
-    wristY = results[0].pose.rightwrist.y;
+    wristY = results[0].pose.rightWrist.y;
     wristscore = results[0].pose.keypoints[10].score;
   }
 
+}
+
+function startgame(){
+  game_status = start;
+  document.getElementById("status").innerHTML = "Game is Loaded";
 }
 
 function draw(){
@@ -59,21 +69,17 @@ function draw(){
  fill("black");
  stroke("black");
  rect(0,0,20,700);
- 
-function startGame() {
-game_status = "start";
-document.getElementById(status).innerHTML = "Game is Loaded";
+ if(wristscore > 0.2){
+   fill("red");
+   stroke("red");
+   circle(wristX,wristY, 30);
+ }
 
 if(game_status == "start"){
-  
-}
-}
+  document.getElementById("status").innerHTML = "Games is Loaded";
 
-if(wristscore > 0.2){
-  fill("red");
-  stroke("red");
-  circle(wristX, wristY, 30);
-}
+paddleInCanvas();
+
 
    //funtion paddleInCanvas call 
    paddleInCanvas();
@@ -103,8 +109,7 @@ if(wristscore > 0.2){
    //function move call which in very important
     move();
 }
-
-
+}
 
 //function reset when ball does notcame in the contact of padde
 function reset(){
@@ -154,9 +159,12 @@ function move(){
   if (ball.x-2.5*ball.r/2< 0){
   if (ball.y >= paddle1Y&& ball.y <= paddle1Y + paddle1Height) {
     ball.dx = -ball.dx+0.5; 
+    touch.play();
+
   }
   else{
     pcscore++;
+    miss.play();
     reset();
     navigator.vibrate(100);
   }
@@ -198,4 +206,8 @@ function paddleInCanvas(){
   if(mouseY < 0){
     mouseY =0;
   }  
+}
+function restart(){
+  pcscore = 0;
+  loop();
 }
